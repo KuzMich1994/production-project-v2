@@ -6,11 +6,25 @@ export function buildWebpackLoaders(options: BuildOptions): webpack.RuleSetRule[
 
     const {isDev} = options;
 
+    const svgLoader = {
+        test: /\.svg$/,
+        use: ['@svgr/webpack', 'url-loader'],
+    };
+
+    const fileLoader = {
+          test: /\.(png|jpe?g|gif|woff2|woff)$/i,
+          use: [
+              {
+                  loader: 'file-loader',
+              },
+          ],
+      };
+
     const tsLoader = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
-    }
+    };
 
     const sassLoader = {
         test: /\.s[ac]ss$/i,
@@ -34,6 +48,8 @@ export function buildWebpackLoaders(options: BuildOptions): webpack.RuleSetRule[
       };
 
     return [
+      fileLoader,
+      svgLoader,
       tsLoader,
       sassLoader,
     ]
